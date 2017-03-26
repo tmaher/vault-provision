@@ -1,0 +1,12 @@
+.bundle
+.DS_Store
+vendor/bundle
+default.pem
+*.swo
+resources_dump.json
+hosts.txt
+out
+coverage
+todo
+*.gem
+vendor/ruby
