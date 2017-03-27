@@ -1,11 +1,8 @@
 require 'spec_helper'
 
 describe Vault::Provision do
-  it "is a server" do
-    
-  end
-
-  it "says hello world" do
-    expect(true).to be true
+  it "has a cubbyhole" do
+    expect(client.sys.mounts[:cubbyhole].description).to \
+      include 'per-token private secret storage'
   end
 end

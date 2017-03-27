@@ -1,6 +1,7 @@
 $: << File.dirname(__FILE__) + '/../lib'
 
 require 'vault_provision'
+require 'open3'
 
 DEV_VAULT_TOKEN                = 'kittens'.freeze
 DEV_VAULT_ADDR                 = 'http://127.0.0.1:8200'.freeze
@@ -15,11 +16,18 @@ Vault.configure do |config|
 end
 
 def vault_server
-  @test_server ||= IO.popen('vault server -dev')
+  stdin, stdout, stderr, server = Open3.popen3('vault server -dev')
+  cleanup = lambda do |_|
+    stdin.close
+    stdout.close
+    stderr.close
+    Process.kill :INT, server.pid
+  end
+  [:INT, :EXIT].each { |sig| trap(sig, cleanup) }
 end
 
-def vault_client
-  @vault_client ||= Vault::Client.new
+def client
+  @client ||= Vault::Client.new
 end
 
 RSpec.configure do |config|
@@ -28,4 +36,3 @@ RSpec.configure do |config|
 end
 
 vault_server
-vault_client
