@@ -26,3 +26,6 @@ RSpec.configure do |config|
   config.tty = true
   config.raise_errors_for_deprecations!
 end
+
+vault_server
+vault_client

@@ -1,4 +1,1 @@
-require 'vault'
-class Vault::Provision
-  
-end
+require 'vault/provision'
