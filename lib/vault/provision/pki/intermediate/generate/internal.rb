@@ -18,6 +18,7 @@ class Vault::Provision::Pki::Intermediate::Generate::Internal < Vault::Provision
     repo_files.each do |rf|
       mount_point = rf.split('/')[-4]
       next if generated? mount_point
+      next unless @pki_allow_destructive
       resp = @vault.post "v1/#{mount_point}/intermediate/generate/internal",
                          File.read(rf)
       sign_intermediate_csr(mount_point, resp[:data][:csr])
@@ -26,11 +27,11 @@ class Vault::Provision::Pki::Intermediate::Generate::Internal < Vault::Provision
 
   def sign_intermediate_csr mount_point, csr
     return if @intermediate_issuer.empty?
-    root = @intermediate_issuer[mount_point.to_sym]
-    return if root.nil?
+    root_mount = @intermediate_issuer[mount_point.to_sym]
+    return if root_mount.nil?
 
     req = JSON.parse(File.read(gen_file(mount_point)))
-    resp = @vault.post "v1/#{root}/root/sign-intermediate",
+    resp = @vault.post "v1/#{root_mount}/root/sign-intermediate",
                        JSON.dump(csr:                  csr,
                                  common_name:          req['common_name'],
                                  ttl:                  req['ttl'],

@@ -13,18 +13,19 @@ require 'vault/provision/generic'
 class Vault::Provision
   SYSTEM_POLICIES = ['response-wrapping', 'root'].freeze
 
-  attr_accessor :vault, :instance_dir, :intermediate_issuer
+  attr_accessor :vault, :instance_dir,
+                :intermediate_issuer, :pki_allow_destructive
 
   def initialize instance_dir,
                  address: ENV['VAULT_ADDR'],
                  token: ENV['VAULT_TOKEN'],
                  intermediate_issuer: {},
-                 pki_force: false
+                 pki_allow_destructive: false
 
     @instance_dir = instance_dir
     @vault = Vault::Client.new address: address, token: token
     @intermediate_issuer = intermediate_issuer
-    @pki_force = pki_force
+    @pki_allow_destructive = pki_allow_destructive
     @handlers = [
       Sys::Auth,
       Auth::Ldap::Config,

@@ -24,7 +24,7 @@ describe Vault::Provision do
   end
 
   it "has a CA" do
-    expect(client.get('v1/pki-root/ca/pem')).to be
+    expect(client.get('v1/pki-root/ca/pem')).to include "BEGIN CERTIFICATE"
   end
 
   it "has pki-root config urls" do
@@ -36,7 +36,7 @@ describe Vault::Provision do
   end
 
   it "has pki-intermediate ca" do
-    expect(client.get('v1/pki-intermediate/ca/pem')).to be
+    expect(client.get('v1/pki-intermediate/ca/pem')).to include "BEGIN CERTIFICATE"
   end
 
   it "has a dvcert role for intermediate" do

@@ -40,7 +40,11 @@ RSpec.configure do |config|
   config.raise_errors_for_deprecations!
 end
 
-@server = vault_server
+#@server = vault_server
 signatories = {'pki-intermediate': 'pki-root'}
+
+Vault::Provision.new(EXAMPLE_DIR,
+                     intermediate_issuer: signatories,
+                     pki_allow_destructive: true).provision!
 
 Vault::Provision.new(EXAMPLE_DIR, intermediate_issuer: signatories).provision!

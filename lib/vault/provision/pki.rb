@@ -6,10 +6,10 @@ module Vault::Provision::Pki
   class Intermediate; end
 
   def generated? path
-    @vault.get "#{path}/ca/pem"
-    true
+    result = @vault.get "v1/#{path}/ca/pem"
+    return true if result =~ /BEGIN CERTIFICATE/
   rescue Vault::HTTPClientError
-    false
+    return false
   end
 
   def ca_type path
