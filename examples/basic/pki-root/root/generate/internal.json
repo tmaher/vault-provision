@@ -3,5 +3,5 @@
   "exclude_cn_from_sans": true,
   "ttl": "87600h",
   "key_type": "rsa",
-  "key_bits": 4096
+  "key_bits": 2048
 }
