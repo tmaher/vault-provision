@@ -27,7 +27,7 @@ def vault_server
   end
   [:INT, :EXIT].each { |sig| trap(sig, cleanup) }
   puts "server is #{server.pid}"
-  sleep(1)
+  sleep(1) # woo race condition! wait for server to start up
   server
 end
 
