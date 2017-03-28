@@ -10,6 +10,18 @@ describe Vault::Provision do
     expect(client.sys.auths[:ldap].type).to be == 'ldap'
   end
 
+  it "has an ldap admin group" do
+    resp = client.get('v1/auth/ldap/groups/admin')
+    expect(resp[:data]).to be
+    expect(resp[:data][:policies].split(',')).to include 'security_admin'
+  end
+
+  it "has an ldap operators group" do
+    resp = client.get('v1/auth/ldap/groups/operators')
+    expect(resp[:data]).to be
+    expect(resp[:data][:policies]).to include 'master_of_secrets'
+  end
+
   it "has a token auth" do
     expect(client.sys.auths[:token].type).to be == 'token'
   end

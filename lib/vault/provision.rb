@@ -36,7 +36,7 @@ class Vault::Provision
       Pki::Roles,
       Generic,
       Sys::Policy,
-      #Auth::Ldap::Groups,
+      Auth::Ldap::Groups,
     ]
   end
 
