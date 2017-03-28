@@ -30,4 +30,8 @@ describe Vault::Provision do
   it "has pki-root config urls" do
     expect(client.get('v1/pki-root/config/urls')[:data][:crl_distribution_points].to_s).to include 'https://cdn.example.com'
   end
+
+  it "has pki-intermediate config urls" do
+    expect(client.get('v1/pki-intermediate/config/urls')[:data][:issuing_certificates].to_s).to include 'https://cdn.example.com'
+  end
 end
