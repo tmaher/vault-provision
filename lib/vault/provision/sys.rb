@@ -24,7 +24,7 @@ class Vault::Provision::Sys::Mounts < Vault::Provision::Prototype
 
       rf_base = File.basename rf, '.json'
       next if SYSTEM_MOUNTS.include? rf_base
-      puts "** processing mount #{rf_base}"
+      # puts "** processing mount #{rf_base}"
 
       path = rf[(repo_path.length + 1)..-6].to_sym
       r_conf = JSON.parse(File.read(rf))

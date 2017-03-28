@@ -8,10 +8,10 @@ class Vault::Provision::Sys::Auth < Vault::Provision::Prototype
     repo_files.each do |rf|
       path = rf[(repo_path.length + 1)..-6].to_sym
       r_conf = JSON.parse(File.read(rf))
-      puts "** found #{path}"
+      # puts "** found #{path}"
 
       next if auths[path]
-      puts "** processing #{path}"
+      # puts "** processing #{path}"
       @vault.sys.enable_auth(path.to_s,
                              r_conf['type'], r_conf['description'])
       change << @vault.sys.auths[path]
