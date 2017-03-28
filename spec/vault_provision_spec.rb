@@ -27,7 +27,7 @@ describe Vault::Provision do
     expect(client.get('v1/pki-root/ca/pem')).to be
   end
 
-  #it "has pki-root config urls" do
-  #  expect(client.get('v1/pki-root/config/urls')).to include 'asdf'
-  #end
+  it "has pki-root config urls" do
+    expect(client.get('v1/pki-root/config/urls')[:data][:crl_distribution_points].to_s).to include 'https://cdn.example.com'
+  end
 end

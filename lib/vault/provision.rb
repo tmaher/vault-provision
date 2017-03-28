@@ -27,7 +27,7 @@ class Vault::Provision
       Sys::Mounts,
       Pki::Root::Generate::Internal,
       Pki::Intermediate::Generate::Internal,
-      Pki::Config,
+      Vault::Provision::Pki::Config::Urls,
       #Pki::Root::Generate,
       #Pki::Roles,
       #Secret,
