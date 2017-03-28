@@ -15,7 +15,8 @@ describe Vault::Provision do
   end
 
   it "has an ldap config" do
-    client.get('auth/ldap/config').to be
+    config_data = client.get('v1/auth/ldap/config')[:data]
+    expect(config_data[:url]).to be == 'ldaps://ldap.example.com'
   end
 
   #it "has a pki-root mount" do

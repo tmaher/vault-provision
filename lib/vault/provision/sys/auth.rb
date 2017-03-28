@@ -1,7 +1,7 @@
 # helps to enable authentication
 class Vault::Provision::Sys::Auth < Vault::Provision::Prototype
   def provision!
-    puts "files: #{repo_files}"
+    #puts "files: #{repo_files}"
     auths = @vault.sys.auths
 
     change = []
