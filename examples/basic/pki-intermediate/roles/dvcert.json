@@ -1,7 +1,6 @@
 {
   "allow_any_name": false,
   "allow_bare_domains": true,
-  "allow_base_domain": false,
   "allow_ip_sans": true,
   "allow_localhost": true,
   "allow_subdomains": true,

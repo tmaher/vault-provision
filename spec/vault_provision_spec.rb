@@ -38,4 +38,13 @@ describe Vault::Provision do
   it "has pki-intermediate ca" do
     expect(client.get('v1/pki-intermediate/ca/pem')).to be
   end
+
+  it "has a dvcert role for intermediate" do
+    expect(client.get('v1/pki-intermediate/roles/dvcert')[:data][:allowed_domains]).to include "vault.example.com"
+    expect(client.get('v1/pki-intermediate/roles/dvcert')[:data][:allow_any_name]).to be_falsey
+  end
+
+  it "has an unlimited role for root" do
+    expect(client.get('v1/pki-root/roles/unlimited')[:data][:allow_any_name]).to be_truthy
+  end
 end

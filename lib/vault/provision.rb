@@ -30,7 +30,7 @@ class Vault::Provision
       Pki::Root::Generate::Internal,
       Pki::Intermediate::Generate::Internal,
       Pki::Config::Urls,
-      #Pki::Roles,
+      Pki::Roles,
       #Secret,
       #Sys::Policy,
       #Auth::Ldap::Groups,
