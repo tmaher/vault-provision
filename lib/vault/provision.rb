@@ -16,9 +16,9 @@ class Vault::Provision
       Sys::Auth,
       Auth::Ldap::Config,
       Sys::Mounts,
-      Pki::Config,
-      Pki::Root::Generate,
-      Pki::Roles,
+      #Pki::Config,
+      #Pki::Root::Generate,
+      #Pki::Roles,
       Secret,
       Sys::Policy,
       Auth::Ldap::Groups,
@@ -43,6 +43,14 @@ class Vault::Provision::Prototype
     @vault = boss.vault
     @instance_dir = boss.instance_dir
   end
+
+  def sources
+    repo_path = "#{@instance_dir}/#{REPO_PREFIX}"
+    Find.find(repo_path).each do |rf|
+      next unless rf.end_with?('.json')
+    end
+  end
+
 
   def provision!
     puts "#{self.class} says: Go climb a tree!"

@@ -6,7 +6,7 @@ describe Vault::Provision do
       include 'per-token private secret storage'
   end
 
-  it "has a pki-root mount" do
-    expect(client.sys.mounts).to include 'pki-root'
-  end
+  #it "has a pki-root mount" do
+  #  expect(client.sys.mounts).to include 'pki-root'
+  #end
 end

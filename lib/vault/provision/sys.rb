@@ -5,6 +5,8 @@ class Vault::Provision::Sys; end
 
 # helps to enable authentication
 class Vault::Provision::Sys::Auth < Vault::Provision::Prototype
+  REPO_PREFIX='sys/auth'.freeze
+
   def provision!
     auths = @vault.sys.auths
 
