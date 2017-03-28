@@ -17,7 +17,6 @@ class Vault::Provision::Pki::Config::Urls < Vault::Provision::Prototype
   def provision!
     repo_files.each do |rf|
       mount_point = rf.split('/')[-3]
-      #puts "**** mount #{mount_point} rf => #{rf}"
       @vault.post "v1/#{mount_point}/config/urls", File.read(rf)
     end
   end

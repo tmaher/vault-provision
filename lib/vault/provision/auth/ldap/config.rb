@@ -6,20 +6,16 @@ class Vault::Provision::Auth::Ldap::Config < Vault::Provision::Prototype
 
   def repo_files
     return @repo_files if @repo_files
-    #puts "*** calling repo_files"
-
     auths = @vault.sys.auths
 
     aps = auths.keys.select do |auth_point|
       next unless auths[auth_point].type == 'ldap'
-      #puts "**** got auth mount #{auth_point}"
       next unless FileTest.file? ap_file(auth_point)
 
       repo_config  = JSON.parse(File.read(ap_file(auth_point)))
       vault_config = begin
                        @vault.get("auth/#{auth_point}config")['data']
                      rescue Vault::HTTPClientError => e
-                       #puts "**** new #{auth_point} config"
                        raise e unless e.code == 404
                        {}
                      end
@@ -28,9 +24,7 @@ class Vault::Provision::Auth::Ldap::Config < Vault::Provision::Prototype
       # vault state. If they're identical, go on to the next mount point.
       !repo_config.keys.inject(true) { |acc,elem| acc && vault_config[elem] == repo_config[elem]}
     end
-    #puts "**** aps is #{aps}"
     map_out = aps.map { |auth_point| ap_file(auth_point) }
-    #puts "**** returning map_out of #{map_out}"
     @repo_files = map_out
   end
 

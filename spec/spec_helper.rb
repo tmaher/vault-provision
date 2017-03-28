@@ -26,7 +26,7 @@ def vault_server
     Process.kill :INT, server.pid
   end
   [:INT, :EXIT].each { |sig| trap(sig, cleanup) }
-  puts "server is #{server.pid}"
+  puts "server is PID #{server.pid}"
   sleep(1) # woo race condition! wait for server to start up
   server
 end
