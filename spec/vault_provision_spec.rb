@@ -34,4 +34,8 @@ describe Vault::Provision do
   it "has pki-intermediate config urls" do
     expect(client.get('v1/pki-intermediate/config/urls')[:data][:issuing_certificates].to_s).to include 'https://cdn.example.com'
   end
+
+  it "has pki-intermediate ca" do
+    expect(client.get('v1/pki-intermediate/ca/pem')).to be
+  end
 end

@@ -18,8 +18,7 @@ class Vault::Provision::Pki::Root::Generate::Internal < Vault::Provision::Protot
     repo_files.each do |rf|
       mount_point = rf.split('/')[-4]
       next if generated? mount_point
-      resp = @vault.post "v1/#{mount_point}/root/generate/internal", File.read(rf)
-      next unless @intermediate_issuer.empty?
+      @vault.post "v1/#{mount_point}/root/generate/internal", File.read(rf)
     end
   end
 end
