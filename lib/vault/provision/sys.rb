@@ -2,30 +2,7 @@ require 'find'
 
 # systems backend provisioning
 class Vault::Provision::Sys; end
-
-# helps to enable authentication
-class Vault::Provision::Sys::Auth < Vault::Provision::Prototype
-  REPO_PREFIX='sys/auth'.freeze
-
-  def provision!
-    auths = @vault.sys.auths
-
-    repo_path = "#{@instance_dir}/sys/auth"
-    change = []
-    Find.find(repo_path).each do |rf|
-      next unless rf.end_with?('.json')
-
-      path = rf[(repo_path.length + 1)..-6].to_sym
-      r_conf = JSON.parse(File.read(rf))
-
-      next if auths[path]
-      @vault.sys.enable_auth(path.to_s,
-                             r_conf['type'], r_conf['description'])
-      change << @vault.sys.auths[path]
-    end
-    change
-  end
-end
+require 'vault/provision/sys/auth'
 
 # secret mounts
 class Vault::Provision::Sys::Mounts < Vault::Provision::Prototype

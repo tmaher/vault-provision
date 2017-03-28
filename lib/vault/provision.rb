@@ -1,4 +1,5 @@
 require 'vault'
+require 'active_support/inflector'
 
 # controller for the children
 class Vault::Provision
@@ -16,12 +17,12 @@ class Vault::Provision
       Sys::Auth,
       Auth::Ldap::Config,
       Sys::Mounts,
+      Sys::Policy,
+      Auth::Ldap::Groups,
       #Pki::Config,
       #Pki::Root::Generate,
       #Pki::Roles,
-      Secret,
-      Sys::Policy,
-      Auth::Ldap::Groups,
+      #Secret,
     ]
   end
 
@@ -44,13 +45,18 @@ class Vault::Provision::Prototype
     @instance_dir = boss.instance_dir
   end
 
-  def sources
-    repo_path = "#{@instance_dir}/#{REPO_PREFIX}"
-    Find.find(repo_path).each do |rf|
-      next unless rf.end_with?('.json')
-    end
+  def repo_prefix
+    ActiveSupport::Inflector.underscore(self.class.to_s)
+                            .split('/')[2..-1].join('/')
   end
 
+  def repo_path
+    "#{@instance_dir}/#{repo_prefix}"
+  end
+
+  def repo_files
+    Find.find(repo_path).select { |rf| rf.end_with?('.json') }
+  end
 
   def provision!
     puts "#{self.class} says: Go climb a tree!"
@@ -58,6 +64,6 @@ class Vault::Provision::Prototype
 end
 
 require 'vault/provision/auth'
+require 'vault/provision/sys'
 require 'vault/provision/pki'
 require 'vault/provision/secret'
-require 'vault/provision/sys'
