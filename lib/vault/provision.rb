@@ -11,6 +11,8 @@ require 'vault/provision/secret'
 
 # controller for the children
 class Vault::Provision
+  SYSTEM_POLICIES = ['response-wrapping', 'root'].freeze
+
   attr_accessor :vault, :instance_dir, :intermediate_issuer
 
   def initialize instance_dir,
@@ -32,7 +34,7 @@ class Vault::Provision
       Pki::Config::Urls,
       Pki::Roles,
       #Secret,
-      #Sys::Policy,
+      Sys::Policy,
       #Auth::Ldap::Groups,
     ]
   end

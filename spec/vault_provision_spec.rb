@@ -47,4 +47,9 @@ describe Vault::Provision do
   it "has an unlimited role for root" do
     expect(client.get('v1/pki-root/roles/unlimited')[:data][:allow_any_name]).to be_truthy
   end
+
+  it "has a master_of_secrets policy" do
+    expect(client.sys.policy('master_of_secrets').rules).to include '"sys/auth/*"'
+    expect(client.sys.policy('master_of_secrets').rules).to include '"secret/*"'
+  end
 end

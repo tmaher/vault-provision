@@ -3,6 +3,7 @@ require 'find'
 # systems backend provisioning
 class Vault::Provision::Sys; end
 require 'vault/provision/sys/auth'
+require 'vault/provision/sys/policy'
 
 # secret mounts
 class Vault::Provision::Sys::Mounts < Vault::Provision::Prototype
@@ -44,23 +45,5 @@ class Vault::Provision::Sys::Mounts < Vault::Provision::Prototype
       change << @vault.sys.mounts[path]
     end
     change
-  end
-end
-
-# for rubocop, this comment is a matter of policy
-class Vault::Provision::Sys::Policy < Vault::Provision::Prototype
-  def provision!
-    repo_path = "#{@instance_dir}/sys/policy"
-
-    Find.find(repo_path) do |rf|
-      next unless rf.end_with?('.json')
-
-      policy_name = File.basename rf, '.json'
-      repo_policy = File.read(rf)
-      vault_policy = @vault.sys.policy(policy_name)
-      next if !vault_policy.nil? && repo_policy == @vault.sys.policy(policy_name).rules
-
-      @vault.sys.put_policy(policy_name, repo_policy)
-    end
   end
 end
