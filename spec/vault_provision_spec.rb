@@ -22,4 +22,12 @@ describe Vault::Provision do
   it "has a pki-root mount" do
     expect(client.sys.mounts.keys).to include :'pki-root'
   end
+
+  it "has a CA" do
+    expect(client.get('v1/pki-root/ca/pem')).to be
+  end
+
+  #it "has pki-root config urls" do
+  #  expect(client.get('v1/pki-root/config/urls')).to include 'asdf'
+  #end
 end

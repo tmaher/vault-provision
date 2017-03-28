@@ -17,7 +17,7 @@ class Vault::Provision
       Sys::Auth,
       Auth::Ldap::Config,
       Sys::Mounts,
-      #Pki::Config,
+      Pki::Config,
       #Pki::Root::Generate,
       #Pki::Roles,
       #Secret,
