@@ -1,21 +1,20 @@
 # PKI/CA backend provisioning
 module Vault::Provision::Pki
-  def self.generated? path
+  # placeholder
+  module Root; end
+  # placeholder
+  module Intermediate; end
+
+  def generated? path
     @vault.get "#{path}/ca/pem"
     true
   rescue Vault::HTTPClientError
     false
   end
 
-  def self.ca_type path
+  def ca_type path
     path.match(/pki-intermediate/) && true
   end
-
-  # placeholder
-  module Root; end
-
-  # placeholder
-  module Intermediate; end
 end
 
 # config crl & distribution points for CAs
