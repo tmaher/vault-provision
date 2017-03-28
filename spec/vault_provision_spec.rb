@@ -52,4 +52,8 @@ describe Vault::Provision do
     expect(client.sys.policy('master_of_secrets').rules).to include '"sys/auth/*"'
     expect(client.sys.policy('master_of_secrets').rules).to include '"secret/*"'
   end
+
+  it "has a secret squirrel" do
+    expect(client.sys.mounts[:squirrel].type).to be == 'generic'
+  end
 end
