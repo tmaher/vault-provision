@@ -26,6 +26,9 @@ def vault_server
     Process.kill :INT, server.pid
   end
   [:INT, :EXIT].each { |sig| trap(sig, cleanup) }
+  puts "server is #{server.pid}"
+  sleep(1)
+  server
 end
 
 def client
@@ -37,6 +40,6 @@ RSpec.configure do |config|
   config.raise_errors_for_deprecations!
 end
 
-vault_server
+@server = vault_server
 
-#Vault::Provision.new
+Vault::Provision.new(EXAMPLE_DIR).provision!

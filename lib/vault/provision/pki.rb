@@ -79,7 +79,6 @@ class Vault::Provision::Pki::Roles < Vault::Provision::Prototype
   end
 end
 
-
 # create the CA
 class Vault::Provision::Pki::Root::Generate < Vault::Provision::Prototype
   include Vault::Provision::Pki

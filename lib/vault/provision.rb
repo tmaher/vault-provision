@@ -18,7 +18,6 @@ class Vault::Provision
       Sys::Mounts,
       Pki::Config,
       Pki::Root::Generate,
-      Pki::Internal::Generate,
       Pki::Roles,
       Secret,
       Sys::Policy,
