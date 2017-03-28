@@ -19,7 +19,7 @@ describe Vault::Provision do
     expect(config_data[:url]).to be == 'ldaps://ldap.example.com'
   end
 
-  #it "has a pki-root mount" do
-  #  expect(client.sys.mounts).to include 'pki-root'
-  #end
+  it "has a pki-root mount" do
+    expect(client.sys.mounts.keys).to include :'pki-root'
+  end
 end

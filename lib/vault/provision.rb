@@ -17,12 +17,12 @@ class Vault::Provision
       Sys::Auth,
       Auth::Ldap::Config,
       Sys::Mounts,
-      #Sys::Policy,
-      #Auth::Ldap::Groups,
       #Pki::Config,
       #Pki::Root::Generate,
       #Pki::Roles,
       #Secret,
+      #Sys::Policy,
+      #Auth::Ldap::Groups,
     ]
   end
 
