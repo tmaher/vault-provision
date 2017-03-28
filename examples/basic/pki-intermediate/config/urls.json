@@ -1,0 +1,4 @@
+{
+  "crl_distribution_points": "https://cdn.example.com/intermediate.crl",
+  "issuing_certificates": "https://cdn.example.com/intermediate.crt"
+}

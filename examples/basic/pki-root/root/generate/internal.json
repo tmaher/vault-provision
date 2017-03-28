@@ -1,0 +1,7 @@
+{
+  "common_name": "some_root_ca",
+  "exclude_cn_from_sans": true,
+  "ttl": "87600h",
+  "key_type": "rsa",
+  "key_bits": 4096
+}

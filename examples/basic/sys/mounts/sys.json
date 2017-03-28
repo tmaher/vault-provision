@@ -1,0 +1,8 @@
+{
+  "config": {
+    "default_lease_ttl": 0,
+    "max_lease_ttl": 0
+  },
+  "description": "system endpoints used for control, policy and debugging",
+  "type": "system"
+}

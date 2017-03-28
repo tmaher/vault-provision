@@ -1,0 +1,18 @@
+{
+  "allow_any_name": true,
+  "allow_bare_domains": true,
+  "allow_base_domain": true,
+  "allow_ip_sans": true,
+  "allow_localhost": true,
+  "allow_subdomains": true,
+  "client_flag": true,
+  "code_signing_flag": false,
+  "email_protection_flag": false,
+  "enforce_hostnames": false,
+  "key_bits": 4096,
+  "key_type": "rsa",
+  "max_ttl": "4380h0m0s",
+  "server_flag": true,
+  "ttl": "4380h0m0s",
+  "use_csr_common_name": true
+}

@@ -1,0 +1,21 @@
+{
+  "path": [
+    {
+      "pki-intermediate/issue/dvcert": {
+        "capabilities": [
+          "create",
+          "read",
+          "update",
+          "delete",
+          "list"
+        ]
+      },
+      "sys/*": {
+        "capabilities": [
+          "read",
+          "list"
+        ]
+      }
+    }
+  ]
+}

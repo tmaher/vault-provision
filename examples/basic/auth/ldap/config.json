@@ -1,0 +1,13 @@
+{
+  "binddn": "",
+  "bindpass": "",
+  "certificate": "",
+  "discoverdn": false,
+  "groupdn": "ou=groups,dc=example,dc=com",
+  "insecure_tls": false,
+  "starttls": false,
+  "upndomain": "",
+  "url": "ldaps://ldap.example.com",
+  "userattr": "uid",
+  "userdn": "ou=people,dc=example,dc=com"
+}

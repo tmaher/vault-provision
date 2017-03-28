@@ -1,0 +1,8 @@
+{
+  "config": {
+    "default_lease_ttl": 0,
+    "max_lease_ttl": 315360000
+  },
+  "description": "",
+  "type": "pki"
+}

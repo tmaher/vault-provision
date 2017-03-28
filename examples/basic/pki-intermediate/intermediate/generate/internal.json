@@ -1,0 +1,7 @@
+{
+  "common_name": "some_intermediate_ca",
+  "exclude_cn_from_sans": true,
+  "ttl": "26280h",
+  "key_type": "rsa",
+  "key_bits": 4096
+}
