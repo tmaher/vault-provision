@@ -11,15 +11,17 @@ require 'vault/provision/secret'
 
 # controller for the children
 class Vault::Provision
-  attr_accessor :vault, :instance_dir
+  attr_accessor :vault, :instance_dir, :intermediate_issuer
 
   def initialize instance_dir,
                  address: ENV['VAULT_ADDR'],
                  token: ENV['VAULT_TOKEN'],
+                 intermediate_issuer: {},
                  pki_force: false
 
     @instance_dir = instance_dir
     @vault = Vault::Client.new address: address, token: token
+    @intermediate_issuer = intermediate_issuer
     @pki_force = pki_force
     @handlers = [
       Sys::Auth,
@@ -28,7 +30,6 @@ class Vault::Provision
       Pki::Root::Generate::Internal,
       Pki::Intermediate::Generate::Internal,
       Vault::Provision::Pki::Config::Urls,
-      #Pki::Root::Generate,
       #Pki::Roles,
       #Secret,
       #Sys::Policy,

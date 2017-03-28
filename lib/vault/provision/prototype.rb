@@ -3,6 +3,7 @@ class Vault::Provision::Prototype
   def initialize boss
     @vault = boss.vault
     @instance_dir = boss.instance_dir
+    @intermediate_issuer = boss.intermediate_issuer
   end
 
   def repo_prefix

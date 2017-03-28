@@ -41,5 +41,6 @@ RSpec.configure do |config|
 end
 
 @server = vault_server
+signatories = {'pki-intermediate': 'pki-root'}
 
-Vault::Provision.new(EXAMPLE_DIR).provision!
+Vault::Provision.new(EXAMPLE_DIR, intermediate_issuer: signatories).provision!
