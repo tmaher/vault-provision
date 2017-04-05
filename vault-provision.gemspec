@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.license = "Apache-2.0"
   s.files = `git ls-files`.split("\n")
   s.homepage = 'https://github.com/tmaher/vault-provision'
+  s.add_dependency 'rhcl', '~>0.1.0'
   s.add_dependency 'vault', '~>0.9.0'
   s.add_development_dependency "rake", '~>12'
   s.add_development_dependency "rspec", '~>3'
