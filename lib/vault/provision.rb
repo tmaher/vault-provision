@@ -37,6 +37,7 @@ class Vault::Provision
       Generic,
       Sys::Policy,
       Auth::Ldap::Groups,
+      Auth::Approle
     ]
   end
 

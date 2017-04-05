@@ -8,8 +8,10 @@ class Vault::Provision::Auth::Approle < Vault::Provision::Prototype
       role_path    = "auth/#{auth_point}/role/#{role_name}"
       role_id_file = "#{@instance_dir}/#{role_path}/role-id.json"
 
+      puts "  * #{role_path}"
       @vault.post "v1/#{role_path}", File.read(rf)
       next unless FileTest.file? role_id_file
+      puts "  * #{role_path}/role-id"
       @vault.post "v1/#{role_path}/role-id", File.read(role_id_file)
     end
   end
