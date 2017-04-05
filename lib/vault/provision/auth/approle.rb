@@ -2,6 +2,7 @@
 class Vault::Provision::Auth::Approle < Vault::Provision::Prototype
   def provision!
     repo_files.each do |rf|
+      validate_file! rf
       role_name    = File.basename(rf, '.json')
       auth_point   = rf.split('/')[-3]
       role_path    = "auth/#{auth_point}/role/#{role_name}"
