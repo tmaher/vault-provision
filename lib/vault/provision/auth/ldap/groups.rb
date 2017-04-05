@@ -6,10 +6,11 @@ class Vault::Provision::Auth::Ldap::Groups < Vault::Provision::Prototype
     end
   end
 
+  # Vault supports multiple instances of the 'ldap' backend mounted
+  # concurrently. The map-reducey method repo_files gets the list of
+  # ldap mounts, calls group_files() once for each of the mounts,
+  # then concatenates all those filenames into one big flat array
   def repo_files
-    #auths = @vault.sys.auths
-    #auths.keys.select { |ap| auths[ap].type == 'ldap' }
-    #     .inject([]) { |acc, elem| acc + group_files(elem) }
     @vault.sys.auths.select { |_,v| v.type == 'ldap' }
           .keys
           .inject([]) { |acc, elem| acc + group_files(elem) }
