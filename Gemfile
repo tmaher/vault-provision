@@ -7,4 +7,5 @@ gem 'rspec',      '~>3.5.0'
 gem 'rspec-core', '~>3.5.4'
 
 gem 'activesupport', '~>5.0.2'
+gem 'rhcl',          '~>0.1.0'
 gem 'vault',         '~>0.9.0'
