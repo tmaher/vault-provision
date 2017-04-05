@@ -2,9 +2,14 @@
 class Vault::Provision::Auth::Approle < Vault::Provision::Prototype
   def provision!
     repo_files.each do |rf|
-      role = File.basename(rf, '.json')
-      auth_point = rf.split('/')[-3]
-      @vault.post "v1/auth/#{auth_point}/role/#{role}", File.read(rf)
+      role_name    = File.basename(rf, '.json')
+      auth_point   = rf.split('/')[-3]
+      role_path    = "auth/#{auth_point}/role/#{role_name}"
+      role_id_file = "#{@instance_dir}/#{role_path}/role-id.json"
+
+      @vault.post "v1/#{role_path}", File.read(rf)
+      next unless FileTest.file? role_id_file
+      @vault.post "v1/#{role_path}/role-id", File.read(role_id_file)
     end
   end
 
