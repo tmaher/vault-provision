@@ -68,4 +68,8 @@ describe Vault::Provision do
   it "has a secret squirrel" do
     expect(client.sys.mounts[:squirrel].type).to be == 'generic'
   end
+
+  it "has an approle" do
+    expect(client.sys.auths[:approle].type).to be == 'approle'
+  end
 end
