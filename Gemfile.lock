@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    vault-provision (0.1.1)
+    vault-provision (0.1.2)
       vault (~> 0.9.0)
 
 GEM
