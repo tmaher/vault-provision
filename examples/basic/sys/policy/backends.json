@@ -1,0 +1,18 @@
+{
+  "path": [
+    {
+      "secret/frontends/*": {
+        "capabilities": [
+          "read",
+          "list"
+        ]
+      },
+      "secret/frontends/*": {
+        "capabilities": [
+          "read",
+          "list"
+        ]
+      }
+    }
+  ]
+}

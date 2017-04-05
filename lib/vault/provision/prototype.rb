@@ -1,5 +1,9 @@
+require 'rhcl'
+
 # prototype for the individual hierarchy paths
 class Vault::Provision::Prototype
+  class InvalidProvisioningFileError < RuntimeError; end
+
   def initialize boss
     @vault = boss.vault
     @instance_dir = boss.instance_dir
@@ -22,5 +26,22 @@ class Vault::Provision::Prototype
 
   def provision!
     puts "#{self.class} says: Go climb a tree!"
+  end
+
+  def validate_file! path
+    file_string = File.read(path)
+    begin
+      case File.extname(path)
+      when '.json'
+        JSON.parse file_string
+      when '.hcl'
+        Rhcl.parse file_string
+      else
+        raise InvalidProvisioningFileError.new("unknown filetype #{File.extname(path)}")
+      end
+      true
+    rescue Racc::ParseError, JSON::ParserError, InvalidProvisioningFileError => e
+      raise InvalidProvisioningFileError.new("Unable to parse file #{path}:\n🐱🐱🐱\n#{file_string}\n🐱🐱🐱\n#{e.class} #{e.message}")
+    end
   end
 end

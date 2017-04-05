@@ -5,9 +5,11 @@ class Vault::Provision::Sys::Auth < Vault::Provision::Prototype
 
     change = []
     repo_files.each do |rf|
+      validate_file! rf
       path = rf[(repo_path.length + 1)..-6].to_sym
       r_conf = JSON.parse(File.read(rf))
 
+      puts "  * #{File.basename(rf, '.json')} (#{r_conf['type']})"
       next if auths[path]
       @vault.sys.enable_auth(path.to_s,
                              r_conf['type'], r_conf['description'])

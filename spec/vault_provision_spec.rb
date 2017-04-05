@@ -68,4 +68,30 @@ describe Vault::Provision do
   it "has a secret squirrel" do
     expect(client.sys.mounts[:squirrel].type).to be == 'generic'
   end
+
+  it "has an approle mount" do
+    expect(client.sys.auths[:approle].type).to be == 'approle'
+  end
+
+  it "has approle role for frontends" do
+    resp = client.get('v1/auth/approle/role/frontends')
+    expect(resp[:data]).to be
+    expect(resp[:data][:secret_id_num_uses]).to be == 255
+  end
+
+  it "has an approle mount named bob" do
+    expect(client.sys.auths[:bob_the_dancing_approle_mount].type).to be == 'approle'
+  end
+
+  it "bob has dreams too ya know" do
+    resp = client.get('v1/auth/bob_the_dancing_approle_mount/role/dream')
+    expect(resp[:data]).to be
+    expect(resp[:data][:bound_cidr_list]).to be == '10.0.1.0/24'
+  end
+
+  it "in death, a member of project mayhem has a name (or at least a role-id)" do
+    resp = client.get('v1/auth/bob_the_dancing_approle_mount/role/death/role-id')
+    expect(resp[:data]).to be
+    expect(resp[:data][:role_id]).to be == 'robert_paulson'
+  end
 end

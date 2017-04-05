@@ -1,0 +1,10 @@
+{
+  "bind_secret_id": false,
+  "bound_cidr_list": "1.2.3.4/25,127.0.0.0/16",
+  "policies": "backends",
+  "secret_id_num_uses": "25",
+  "secret_id_ttl": "6m",
+  "token_num_uses": 3,
+  "token_ttl": "16m",
+  "token_max_ttl": "30m"
+}
