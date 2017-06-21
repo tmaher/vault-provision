@@ -15,5 +15,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec", '~>3'
   s.add_dependency 'activesupport',     '~> 5.0', '>= 5.0.2'
   s.add_dependency 'rhcl',              '~>0.1.0'
-  s.add_dependency 'vault',             '~>0.9.0'
+  s.add_dependency 'vault',             '~>0.10'
 end
