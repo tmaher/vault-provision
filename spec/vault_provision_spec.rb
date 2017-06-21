@@ -94,4 +94,21 @@ describe Vault::Provision do
     expect(resp[:data]).to be
     expect(resp[:data][:role_id]).to be == 'robert_paulson'
   end
+
+  it "can provision generic k/v pairs" do
+    good = client.get('v1/secret/foo/good')
+    expect(good[:data]).to be
+    expect(good[:data][:whiskers]).to be == 'on kittens'
+
+    bad = client.get('v1/secret/bar/bad')
+    expect(bad[:data][:'😡']).to be \
+      == 'How I feel when people put secrets in source code.'
+    expect(bad[:data][:'😀']).to be \
+      == 'How I feel when people put non-secret config data in k/v stores with decent access control policies'
+
+    yummy = client.get('v1/secret/baz/yummy')
+
+    expect(yummy[:data]).to be
+    expect(yummy[:data][:bear]).to be == '🐻  rawr!'
+  end
 end
