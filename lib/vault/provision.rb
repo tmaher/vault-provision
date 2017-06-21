@@ -7,7 +7,7 @@ require 'vault/provision/prototype'
 require 'vault/provision/auth'
 require 'vault/provision/sys'
 require 'vault/provision/pki'
-require 'vault/provision/generic'
+require 'vault/provision/secret'
 
 # controller for the children
 class Vault::Provision
@@ -34,7 +34,7 @@ class Vault::Provision
       Pki::Intermediate::Generate::Internal,
       Pki::Config::Urls,
       Pki::Roles,
-      Generic,
+      Secret,
       Sys::Policy,
       Auth::Ldap::Groups,
       Auth::Approle
