@@ -8,11 +8,12 @@
 # https://www.vaultproject.io/api/secret/generic/index.html
 class Vault::Provision::Secret < Vault::Provision::Prototype
   def provision!
-    repo_files.each do |rf|
+    repo_files_by_mount_type('generic').each do |rf|
       validate_file! rf
+      kv_path = rf.sub(/\A#{@instance_dir}/, '').sub(/.json\z/, '')
 
-      puts "rf is #{rf}"
-      puts "  * #{File.basename(rf, '.json')}"
+      puts "  * #{kv_path}"
+      @vault.post "v1/#{kv_path}", File.read(rf)
     end
   end
 end

@@ -24,6 +24,22 @@ class Vault::Provision::Prototype
     Find.find(repo_path).select { |rf| rf.end_with?('.json') }
   end
 
+  def repo_files_by_mount_type type
+    mounts = @vault.sys.mounts
+    my_mounts = mounts.keys.select { |mp| mounts[mp].type == type }
+
+    files = []
+    my_mounts.each do |mp|
+      next unless Dir.exist? "#{@instance_dir}/#{mp}"
+      Find.find("#{@instance_dir}/#{mp}").each do |rf|
+        next unless rf.end_with? '.json'
+        files << rf
+      end
+    end
+    files
+  end
+
+
   def provision!
     puts "#{self.class} says: Go climb a tree!"
   end
