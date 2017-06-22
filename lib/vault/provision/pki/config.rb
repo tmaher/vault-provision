@@ -2,3 +2,4 @@
 class Vault::Provision::Pki::Config; end
 
 require 'vault/provision/pki/config/urls'
+require 'vault/provision/pki/config/crl'

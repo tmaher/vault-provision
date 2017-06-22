@@ -6,17 +6,10 @@ class Vault::Provision::Pki::Root::Generate::Internal < Vault::Provision::Protot
     "#{@instance_dir}/#{mount_point}/root/generate/internal.json"
   end
 
-  def repo_files
-    mounts = @vault.sys.mounts
-    generators = mounts.keys.select do |mp|
-      mounts[mp].type == 'pki' && FileTest.file?(gen_file(mp))
-    end
-    generators.map { |mp| gen_file(mp) }
-  end
-
   def provision!
-    repo_files.each do |rf|
+    repo_files_by_mount_type('pki').each do |rf|
       mount_point = rf.split('/')[-4]
+      next unless FileTest.file?(gen_file(mount_point))
       next if generated? mount_point
       next unless @pki_allow_destructive
       @vault.post "v1/#{mount_point}/root/generate/internal", File.read(rf)

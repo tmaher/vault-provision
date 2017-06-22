@@ -15,8 +15,9 @@ class Vault::Provision::Pki::Config::Urls < Vault::Provision::Prototype
   end
 
   def provision!
-    repo_files.each do |rf|
+    repo_files_by_mount_type('pki').each do |rf|
       mount_point = rf.split('/')[-3]
+      next unless FileTest.file?(urls_file(mount_point))
       @vault.post "v1/#{mount_point}/config/urls", File.read(rf)
     end
   end

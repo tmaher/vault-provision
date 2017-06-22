@@ -1,5 +1,5 @@
 # config crl & distribution points for CAs
-class Vault::Provision::Pki::Config::Urls < Vault::Provision::Prototype
+class Vault::Provision::Pki::Config::Crl < Vault::Provision::Prototype
   include Vault::Provision::Pki
 
   def provision!
