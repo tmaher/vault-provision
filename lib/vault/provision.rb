@@ -14,16 +14,19 @@ class Vault::Provision
   SYSTEM_POLICIES = ['response-wrapping', 'root'].freeze
 
   attr_accessor :vault, :instance_dir,
-                :intermediate_issuer, :pki_allow_destructive
+                :intermediate_issuer, :pki_allow_destructive,
+                :aws_update_creds
 
   def initialize instance_dir,
                  address: ENV['VAULT_ADDR'],
                  token: ENV['VAULT_TOKEN'],
+                 aws_update_creds: false,
                  intermediate_issuer: {},
                  pki_allow_destructive: false
 
     @instance_dir = instance_dir
     @vault = Vault::Client.new address: address, token: token
+    @aws_update_creds = aws_update_creds
     @intermediate_issuer = intermediate_issuer
     @pki_allow_destructive = pki_allow_destructive
     @handlers = [
@@ -35,6 +38,7 @@ class Vault::Provision
       Pki::Config::Urls,
       Pki::Roles,
       Secret,
+      Aws::Secret,
       Sys::Policy,
       Auth::Ldap::Groups,
       Auth::Approle
