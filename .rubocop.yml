@@ -1,2 +1,5 @@
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
+
+Style/StringLiterals:
+  Enabled: false
