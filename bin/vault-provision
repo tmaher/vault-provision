@@ -36,7 +36,7 @@ Trollop.die :dir, "#{opts[:dir]} isn't a directory" unless FileTest.directory?(o
 Trollop.die :addr, "need VAULT_ADDR set"   unless opts[:addr]
 Trollop.die :token, "need VAULT_TOKEN set" unless opts[:token]
 
-signatories = {:'pki-intermediate' => 'pki-root'}
+signatories = {'pki-intermediate': 'pki-root'}
 Vault::Provision.new(opts[:dir],
                      address: opts[:addr],
                      token: opts[:token],
