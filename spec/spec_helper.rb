@@ -3,6 +3,8 @@ $: << "#{GEM_DIR}/lib"
 
 require 'vault_provision'
 require 'open3'
+require 'aws-sdk'
+require 'vcr'
 
 DEV_VAULT_TOKEN                = 'kittens'.freeze
 DEV_VAULT_ADDR                 = 'http://127.0.0.1:8200'.freeze
@@ -15,6 +17,20 @@ ENV['VAULT_ADDR']              = DEV_VAULT_ADDR
 Vault.configure do |config|
   config.address = DEV_VAULT_ADDR
   config.token = DEV_VAULT_TOKEN
+end
+
+VCR.configure do |config|
+  config.cassette_library_dir = "spec/vcr_cassettes"
+  config.debug_logger = File.open("log/vcr.log", 'w')
+  config.hook_into :webmock
+  config.allow_http_connections_when_no_cassette = true
+
+  config.filter_sensitive_data('<SOME_VAULT_TOKEN>') do |i|
+    i.request.headers['X-Vault-Token'].first unless i.request.headers['X-Vault-Token'].nil?
+  end
+  config.filter_sensitive_data('<SOME_AUTHZ_HEADER>') do |i|
+    i.request.headers['Authorization'].first unless i.request.headers['Authorization'].nil?
+  end
 end
 
 def vault_server
@@ -40,9 +56,20 @@ RSpec.configure do |config|
   config.raise_errors_for_deprecations!
 end
 
+Aws.config.update(
+  credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'],
+                                    ENV['AWS_SECRET_ACCESS_KEY'])
+)
+
+def iam_client
+  @iam_client ||= Aws::IAM::Client.new
+end
+
+
 @server = vault_server
 signatories = {'pki-intermediate': 'pki-root'}
 
 Vault::Provision.new(EXAMPLE_DIR,
                      intermediate_issuer: signatories,
+                     aws_update_creds: ! ENV['AWS_SECRET_ACCESS_KEY'].nil?,
                      pki_allow_destructive: true).provision!

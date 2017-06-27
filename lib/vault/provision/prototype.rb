@@ -9,6 +9,7 @@ class Vault::Provision::Prototype
     @instance_dir = boss.instance_dir
     @intermediate_issuer = boss.intermediate_issuer
     @pki_allow_destructive = boss.pki_allow_destructive
+    @aws_update_creds = boss.aws_update_creds
   end
 
   def repo_prefix
@@ -24,12 +25,14 @@ class Vault::Provision::Prototype
     Find.find(repo_path).select { |rf| rf.end_with?('.json') }
   end
 
-  def repo_files_by_mount_type type
+  def mounts_by_type type
     mounts = @vault.sys.mounts
-    my_mounts = mounts.keys.select { |mp| mounts[mp].type == type }
+    mounts.keys.select { |mp| mounts[mp].type == type }
+  end
 
+  def repo_files_by_mount_type type
     files = []
-    my_mounts.each do |mp|
+    mounts_by_type(type).each do |mp|
       next unless Dir.exist? "#{@instance_dir}/#{mp}"
       Find.find("#{@instance_dir}/#{mp}").each do |rf|
         next unless rf.end_with? '.json'

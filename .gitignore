@@ -10,3 +10,4 @@ coverage
 todo
 *.gem
 vendor/ruby
+log/*.log
