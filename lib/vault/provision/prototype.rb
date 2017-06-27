@@ -9,6 +9,7 @@ class Vault::Provision::Prototype
     @instance_dir = boss.instance_dir
     @intermediate_issuer = boss.intermediate_issuer
     @pki_allow_destructive = boss.pki_allow_destructive
+    @aws_update_creds = boss.aws_update_creds
   end
 
   def repo_prefix

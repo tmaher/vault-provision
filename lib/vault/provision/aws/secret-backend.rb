@@ -11,17 +11,19 @@ class Vault::Provision::Aws::SecretBackend < Vault::Provision::Prototype
   def provision_config_and_creds!
     return unless @aws_update_creds
     mounts_by_type('aws').each do |mp|
-      mp_prefix = (mp == 'aws') ? '' : "#{mp}_"
+      mp_prefix = mp.to_s == 'aws' ? '' : "#{mp}_"
       access_key = ENV["#{mp_prefix}AWS_ACCESS_KEY"]
       secret_key = ENV["#{mp_prefix}AWS_SECRET_KEY"]
       region = ENV["#{mp_prefix}AWS_REGION"] || AWS_REGION_DEFAULT
       if access_key.nil? || secret_key.nil?
-        puts " * SKIPPING creds for secret AWS mount '#{mp}' (set environment variables #{mp_prefix}AWS_ACCESS_KEY) and #{mp_prefix}AWS_SECRET_KEY"
+        puts "  * SKIPPING creds for secret AWS mount '#{mp}' (set environment variables #{mp_prefix}AWS_ACCESS_KEY) and #{mp_prefix}AWS_SECRET_KEY"
         next
       end
       aws_config = JSON.dump(access_key: access_key,
                              secret_key: secret_key,
                              region:     region)
+
+      puts "  * AWS secret mount point #{mp} config (INCLUDING SECRET)"
       @vault.post "v1/#{mp}/config/root", aws_config
     end
   end
@@ -40,7 +42,7 @@ class Vault::Provision::Aws::SecretBackend < Vault::Provision::Prototype
   def provision_roles!
     mounts_by_type('aws').each do |mp|
       next unless Dir.exist? "#{@instance_dir}/#{mp}"
-      puts "  * AWS secret mount point #{mp}"
+      puts "  * AWS secret mount point #{mp} roles"
 
       Find.find("#{@instance_dir}/#{mp}/roles").each do |rf|
         next unless rf.end_with? '.json'

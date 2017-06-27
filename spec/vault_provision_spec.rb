@@ -123,4 +123,10 @@ describe Vault::Provision do
       client.get('v1/aws/roles/your-mom')
     }.to raise_error(Vault::HTTPClientError)
   end
+
+  it "can create valid IAM credentials" do
+    unless ENV['AWS_ACCESS_KEY'] && ENV['AWS_SECRET_KEY']
+      skip "To test - plz set AWS_ACCESS_KEY and AWS_SECRET_KEY"
+    end
+  end
 end
