@@ -128,31 +128,38 @@ describe Vault::Provision do
     unless ENV['AWS_ACCESS_KEY_ID'] && ENV['AWS_SECRET_ACCESS_KEY']
       skip "To test - plz set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY"
     end
-    resp = client.get 'v1/aws/creds/iam-full-access'
-    expect(resp[:data]).to be
 
-    access_key = resp[:data][:access_key]
-    secret_key = resp[:data][:secret_key]
-    expect(access_key).to match(%r{\AAKIA})
-    expect(secret_key).to be
-    last_used = iam_client.get_access_key_last_used access_key_id: access_key
-    expect(last_used).to be
-    expect(last_used.user_name).to be
+    VCR.use_cassette('aws-secret-iam-full', tag: :aws_secret) do
+      resp = client.get 'v1/aws/creds/iam-full-access'
+      expect(resp[:data]).to be
+
+      access_key = resp[:data][:access_key]
+      secret_key = resp[:data][:secret_key]
+
+      expect(access_key).to match(%r{\AAKIA})
+      expect(secret_key).to be
+
+      last_used = iam_client.get_access_key_last_used access_key_id: access_key
+      expect(last_used).to be
+      expect(last_used.user_name).to be
+    end
   end
   it "can create valid IAM credentials with custom policies" do
     unless ENV['AWS_ACCESS_KEY_ID'] && ENV['AWS_SECRET_ACCESS_KEY']
       skip "To test - plz set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY"
     end
 
-    resp = client.get 'v1/aws/creds/s3-bucket-custom'
-    expect(resp[:data]).to be
+    VCR.use_cassette('aws-secret-custom', tag: :aws_secret) do
+      resp = client.get 'v1/aws/creds/s3-bucket-custom'
+      expect(resp[:data]).to be
 
-    access_key = resp[:data][:access_key]
-    secret_key = resp[:data][:secret_key]
-    expect(access_key).to match(%r{\AAKIA})
-    expect(secret_key).to be
-    last_used = iam_client.get_access_key_last_used access_key_id: access_key
-    expect(last_used).to be
-    expect(last_used.user_name).to be
+      access_key = resp[:data][:access_key]
+      secret_key = resp[:data][:secret_key]
+      expect(access_key).to match(%r{\AAKIA})
+      expect(secret_key).to be
+      last_used = iam_client.get_access_key_last_used access_key_id: access_key
+      expect(last_used).to be
+      expect(last_used.user_name).to be
+    end
   end
 end
