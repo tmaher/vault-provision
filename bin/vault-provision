@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+
+require 'trollop'
+require 'vault'
+require 'vault_provision'
+
+prog_name = File.basename $PROGRAM_NAME
+opts = Trollop.options do
+  banner <<-EOS
+Provision a Vault configuration
+
+Usage:
+
+$ export VAULT_ADDR='https://<my-vault-server:8200>'
+$ export VAULT_TOKEN=<my-vault-root-token>
+$ #{prog_name} --dir /path/to/provisioning-data
+.
+EOS
+  opt :dir,
+      'Root directory of provisioning data. For example, ./bin/vault-provision --dir ./examples/basic',
+      type: :string
+  opt :destructive,
+      'Regenerate the PKI CA keys (DANGEROUS)',
+      default: false
+  opt :addr,
+      'vault address (overrides VAULT_ADDR)',
+      type: :string, default: ENV['VAULT_ADDR']
+  opt :token,
+      'vault token (overrides VAULT_TOKEN)',
+      type: :string, default: ENV['VAULT_TOKEN']
+end
+
+Trollop.die :dir, "need a directory" if opts[:dir].nil?
+Trollop.die :dir, "#{opts[:dir]} isn't a directory" unless FileTest.directory?(opts[:dir])
+
+Trollop.die :addr, "need VAULT_ADDR set"   unless opts[:addr]
+Trollop.die :token, "need VAULT_TOKEN set" unless opts[:token]
+
+signatories = {:'pki-intermediate' => 'pki-root'}
+Vault::Provision.new(opts[:dir],
+                     address: opts[:addr],
+                     token: opts[:token],
+                     intermediate_issuer: signatories,
+                     pki_allow_destructive: opts[:destructive]).provision!
