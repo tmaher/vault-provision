@@ -1,0 +1,8 @@
+{
+  "config": {
+    "default_lease_ttl": "384h",
+    "max_lease_ttl": "768h"
+  },
+  "description": "AWS IAM Secrets as a Service (AISaaS)",
+  "type": "aws"
+}

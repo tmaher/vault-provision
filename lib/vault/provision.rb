@@ -8,6 +8,7 @@ require 'vault/provision/auth'
 require 'vault/provision/sys'
 require 'vault/provision/pki'
 require 'vault/provision/secret'
+require 'vault/provision/aws'
 
 # controller for the children
 class Vault::Provision
@@ -38,7 +39,7 @@ class Vault::Provision
       Pki::Config::Urls,
       Pki::Roles,
       Secret,
-      Aws::Secret,
+      Aws::SecretBackend,
       Sys::Policy,
       Auth::Ldap::Groups,
       Auth::Approle
