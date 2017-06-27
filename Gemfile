@@ -14,4 +14,6 @@ group :development, :test do
   gem 'rspec-core',     '~>3.6.0'
   gem 'rubocop',        '~>0.49.1'
   gem 'rubocop-github', '~>0.5.0'
+  gem 'vcr',            '~>3.0.3'
+  gem 'webmock',        '~>3.0.1'
 end
