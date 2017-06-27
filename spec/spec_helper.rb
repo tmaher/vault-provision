@@ -71,5 +71,5 @@ signatories = {'pki-intermediate': 'pki-root'}
 
 Vault::Provision.new(EXAMPLE_DIR,
                      intermediate_issuer: signatories,
-                     aws_update_creds: true,
+                     aws_update_creds: ! ENV['AWS_SECRET_ACCESS_KEY'].nil?,
                      pki_allow_destructive: true).provision!
