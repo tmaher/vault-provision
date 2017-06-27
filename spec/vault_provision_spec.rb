@@ -111,4 +111,16 @@ describe Vault::Provision do
     expect(yummy[:data]).to be
     expect(yummy[:data][:bear]).to be == '🐻  rawr!'
   end
+
+  it "has AWS roles" do
+    resp = client.get 'v1/aws/roles/iam-full-access'
+    expect(resp[:data]).to be
+    expect(resp[:data][:arn]).to be == 'arn:aws:iam::aws:policy/IAMFullAccess'
+  end
+
+  it "does not have nonexistant AWS roles" do
+    expect {
+      client.get('v1/aws/roles/your-mom')
+    }.to raise_error(Vault::HTTPClientError)
+  end
 end
