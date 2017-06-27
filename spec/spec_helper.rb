@@ -3,6 +3,7 @@ $: << "#{GEM_DIR}/lib"
 
 require 'vault_provision'
 require 'open3'
+require 'aws-sdk'
 
 DEV_VAULT_TOKEN                = 'kittens'.freeze
 DEV_VAULT_ADDR                 = 'http://127.0.0.1:8200'.freeze
@@ -39,6 +40,16 @@ RSpec.configure do |config|
   config.tty = true
   config.raise_errors_for_deprecations!
 end
+
+Aws.config.update(
+  credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'],
+                                    ENV['AWS_SECRET_ACCESS_KEY'])
+)
+
+def iam_client
+  @iam_client ||= Aws::IAM::Client.new
+end
+
 
 @server = vault_server
 signatories = {'pki-intermediate': 'pki-root'}

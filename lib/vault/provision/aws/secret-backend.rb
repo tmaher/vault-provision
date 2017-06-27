@@ -3,6 +3,11 @@
 class Vault::Provision::Aws::SecretBackend < Vault::Provision::Prototype
   AWS_REGION_DEFAULT = 'us-east-1'.freeze
 
+  class Vault::Provision::Aws::SecretBackend::NoCredsError < RuntimeError
+  end
+
+  attr_accessor :access_key, :secret_key, :region
+
   def provision!
     provision_config_and_creds!
     provision_roles!
@@ -12,19 +17,29 @@ class Vault::Provision::Aws::SecretBackend < Vault::Provision::Prototype
     return unless @aws_update_creds
     mounts_by_type('aws').each do |mp|
       mp_prefix = mp.to_s == 'aws' ? '' : "#{mp}_"
-      access_key = ENV["#{mp_prefix}AWS_ACCESS_KEY"]
-      secret_key = ENV["#{mp_prefix}AWS_SECRET_KEY"]
-      region = ENV["#{mp_prefix}AWS_REGION"] || AWS_REGION_DEFAULT
-      if access_key.nil? || secret_key.nil?
-        puts "  * SKIPPING creds for secret AWS mount '#{mp}' (set environment variables #{mp_prefix}AWS_ACCESS_KEY) and #{mp_prefix}AWS_SECRET_KEY"
-        next
+
+      @access_key = ENV["#{mp_prefix}AWS_ACCESS_KEY_ID"]
+      @secret_key = ENV["#{mp_prefix}AWS_SECRET_ACCESS_KEY"]
+      @region = ENV["#{mp_prefix}AWS_REGION"] || AWS_REGION_DEFAULT
+
+      if @access_key.nil? || @secret_key.nil?
+        raise NoCredsError,
+          "set environment variables #{mp_prefix}AWS_ACCESS_KEY_ID) and #{mp_prefix}AWS_SECRET_ACCESS_KEY"
       end
-      aws_config = JSON.dump(access_key: access_key,
-                             secret_key: secret_key,
-                             region:     region)
+
+      aws_config = JSON.dump(access_key: @access_key,
+                             secret_key: @secret_key,
+                             region:     @region)
 
       puts "  * AWS secret mount point #{mp} config (INCLUDING SECRET)"
       @vault.post "v1/#{mp}/config/root", aws_config
+
+      lease_config = "#{@instance_dir}/#{mp}/config/lease.json"
+      next unless FileTest.readable? lease_config
+
+      validate_file! lease_config
+      puts "  * #{mp}/config/lease"
+      @vault.post "v1/#{mp}/config/lease", File.read(lease_config)
     end
   end
 
