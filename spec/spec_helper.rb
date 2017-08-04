@@ -9,6 +9,7 @@ require 'vcr'
 DEV_VAULT_TOKEN                = 'kittens'.freeze
 DEV_VAULT_ADDR                 = 'http://127.0.0.1:8200'.freeze
 EXAMPLE_DIR                    = "#{GEM_DIR}/examples/basic".freeze
+AUDIT_LOG_PATH                 = "/tmp/my-vault-audit-test.log"
 
 ENV['VAULT_DEV_ROOT_TOKEN_ID'] = DEV_VAULT_TOKEN
 ENV['VAULT_TOKEN']             = DEV_VAULT_TOKEN
@@ -34,6 +35,7 @@ VCR.configure do |config|
 end
 
 def vault_server
+  File.unlink(AUDIT_LOG_PATH) if File.exist?(AUDIT_LOG_PATH)
   stdin, stdout, stderr, server = Open3.popen3('vault server -dev')
   cleanup = lambda do |_|
     stdin.close
@@ -41,7 +43,9 @@ def vault_server
     stderr.close
     Process.kill :INT, server.pid
   end
-  [:INT, :EXIT].each { |sig| trap(sig, cleanup) }
+  [:INT, :EXIT].each do |sig|
+    trap(sig, cleanup)
+  end
   puts "server is PID #{server.pid}"
   sleep(1) # woo race condition! wait for server to start up
   server
