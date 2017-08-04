@@ -1,0 +1,8 @@
+{
+  "type": "syslog",
+  "description": "my syslog audit backend",
+  "options": {
+    "facility": "LPR",
+    "tag": "vault-provision-testing"
+  }
+}
