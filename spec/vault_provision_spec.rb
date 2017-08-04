@@ -165,10 +165,13 @@ describe Vault::Provision do
 
   it "can create audit backends" do
     resp = client.sys.audits
-    puts resp
     expect(resp[:my_file]).to be
     expect(resp[:my_file].options[:file_path]).to be == AUDIT_LOG_PATH
     expect(resp[:my_file].description).to be == 'my file-based audit backend'
     expect(File.exist?(AUDIT_LOG_PATH)).to be true
+
+    expect(resp[:my_syslog]).to be
+    expect(resp[:my_syslog].options[:tag]).to be == AUDIT_LOG_TAG
+    expect(resp[:my_syslog].options[:facility]).to be == "LPR"
   end
 end

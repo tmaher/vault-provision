@@ -10,6 +10,7 @@ DEV_VAULT_TOKEN                = 'kittens'.freeze
 DEV_VAULT_ADDR                 = 'http://127.0.0.1:8200'.freeze
 EXAMPLE_DIR                    = "#{GEM_DIR}/examples/basic".freeze
 AUDIT_LOG_PATH                 = "/tmp/my-vault-audit-test.log"
+AUDIT_LOG_TAG                  = "my-vault-audit-tag"
 
 ENV['VAULT_DEV_ROOT_TOKEN_ID'] = DEV_VAULT_TOKEN
 ENV['VAULT_TOKEN']             = DEV_VAULT_TOKEN
