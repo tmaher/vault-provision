@@ -2,6 +2,7 @@ require 'find'
 
 # systems backend provisioning
 class Vault::Provision::Sys; end
+require 'vault/provision/sys/audit'
 require 'vault/provision/sys/auth'
 require 'vault/provision/sys/policy'
 

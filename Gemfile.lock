@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    vault-provision (0.1.8)
+    vault-provision (0.1.11)
       activesupport (~> 5.0, >= 5.0.2)
       rhcl (~> 0.1.0)
       vault (~> 0.10)

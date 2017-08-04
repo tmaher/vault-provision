@@ -31,6 +31,7 @@ class Vault::Provision
     @intermediate_issuer = intermediate_issuer
     @pki_allow_destructive = pki_allow_destructive
     @handlers = [
+      Sys::Audit,
       Sys::Auth,
       Auth::Ldap::Config,
       Sys::Mounts,
