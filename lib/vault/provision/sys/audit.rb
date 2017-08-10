@@ -28,7 +28,9 @@ class Vault::Provision::Sys::Audit < Vault::Provision::Prototype
 
   def backend_changed?(vault_conf, file_conf)
     return true unless vault_conf
-    file_conf.each { |k, v| return true if v != vault_conf.to_h[k] }
+    file_conf.deep_symbolize_keys.each do |k, v|
+      return true if v != vault_conf.to_h[k]
+    end
     false
   end
 
