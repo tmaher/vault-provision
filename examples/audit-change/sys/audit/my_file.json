@@ -1,0 +1,8 @@
+{
+  "type": "file",
+  "description": "my file-based audit backend",
+  "options": {
+    "file_path": "/tmp/my-vault-alt-audit-test.log",
+    "mode": "0644"
+  }
+}

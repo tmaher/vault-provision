@@ -173,5 +173,11 @@ describe Vault::Provision do
     expect(resp[:my_syslog]).to be
     expect(resp[:my_syslog].options[:tag]).to be == AUDIT_LOG_TAG
     expect(resp[:my_syslog].options[:facility]).to be == "LPR"
+
+    # File.unlink(AUDIT_LOG_PATH)
+    Vault::Provision.new(EXAMPLE_AUDIT_DIR).provision!
+    resp = client.sys.audits
+    expect(resp[:my_file].options[:file_path]).to be == ALT_AUDIT_LOG_PATH
+    expect(File.exist?(ALT_AUDIT_LOG_PATH)).to be true
   end
 end
