@@ -1,7 +1,9 @@
 # placeholder
 class Vault::Provision::Auth::Ldap::Groups < Vault::Provision::Prototype
   def group_files auth_point
-    Find.find("#{@instance_dir}/auth/#{auth_point}/groups/").select do |rf|
+    groups_path = "#{@instance_dir}/auth/#{auth_point}/groups/"
+    return [] unless Dir.exist? groups_path
+    Find.find(groups_path).select do |rf|
       FileTest.file?(rf) && rf.end_with?('.json')
     end
   end

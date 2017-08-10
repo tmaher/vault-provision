@@ -20,6 +20,7 @@ class Vault::Provision::Sys::Mounts < Vault::Provision::Prototype
 
     repo_path = "#{@instance_dir}/sys/mounts"
     change = []
+    return change unless Dir.exist?(repo_path)
     Find.find(repo_path).each do |rf|
       next unless rf.end_with?('.json')
       next if rf.end_with?('/tune.json')

@@ -22,6 +22,7 @@ class Vault::Provision::Prototype
   end
 
   def repo_files
+    return [] unless File.exist? repo_path
     Find.find(repo_path).select { |rf| rf.end_with?('.json') }
   end
 
