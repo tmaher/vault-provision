@@ -3,6 +3,6 @@
   "description": "my syslog audit backend",
   "options": {
     "facility": "LPR",
-    "tag": "vault-provision-testing"
+    "tag": "my-vault-audit-tag"
   }
 }
