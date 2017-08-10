@@ -12,13 +12,11 @@ class Vault::Provision::Sys::Audit < Vault::Provision::Prototype
       # API only lets you delete & re-create audit backends
       # No upcerts allowed :(
       if backend_exists?(path)
-        puts "doing a disable on sys/audit/#{path}"
+        puts "  * #{path} changed, disabling for update"
         @vault.sys.disable_audit(path)
-      else
-        puts "#{path} not in known audits '#{audits.keys}'"
       end
 
-      puts "doing the enable on sys/audit/#{path}"
+      puts "  * #{path} enabled"
       @vault.sys.enable_audit(path,
                               r_conf['type'],
                               r_conf['description'],
